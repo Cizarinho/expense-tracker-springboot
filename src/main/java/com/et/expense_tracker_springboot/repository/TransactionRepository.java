@@ -1,5 +1,5 @@
-package repository;
-import model.AbstractTransaction;
+package com.et.expense_tracker_springboot.repository;
+import com.et.expense_tracker_springboot.model.AbstractTransaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

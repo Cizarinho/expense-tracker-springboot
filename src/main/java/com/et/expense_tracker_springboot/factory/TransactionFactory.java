@@ -1,11 +1,11 @@
-package factory;
+package com.et.expense_tracker_springboot.factory;
 
-import model.Expense;
-import model.Income;
+import com.et.expense_tracker_springboot.model.Expense;
+import com.et.expense_tracker_springboot.model.Income;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import model.Transaction;
+import com.et.expense_tracker_springboot.model.Transaction;
 
 @Component
 public class TransactionFactory {

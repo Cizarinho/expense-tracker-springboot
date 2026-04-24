@@ -1,7 +1,6 @@
-package model;
+package com.et.expense_tracker_springboot.model;
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

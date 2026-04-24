@@ -1,15 +1,14 @@
-package service;
+package com.et.expense_tracker_springboot.service;
 
-import factory.TransactionFactory;
-import model.AbstractTransaction;
+import com.et.expense_tracker_springboot.factory.TransactionFactory;
+import com.et.expense_tracker_springboot.model.AbstractTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.TransactionRepository;
+import com.et.expense_tracker_springboot.repository.TransactionRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class TransactionService {
@@ -28,6 +27,9 @@ public class TransactionService {
         var transaction = (AbstractTransaction) factory.createTransaction(type, amount, date, category, description);
 
         repository.save(transaction);
+    }
+    public List<AbstractTransaction> getAllTransactions() {
+        return repository.findAllByOrderByDateDesc();
     }
     // Kontostand berechnen
     public BigDecimal calculateBalance() {

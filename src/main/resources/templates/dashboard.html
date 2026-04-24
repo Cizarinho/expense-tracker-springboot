@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans p-6 md:p-12">
+
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg border border-slate-200">
+
+    <h1 class="text-3xl font-extrabold text-slate-900 mb-6 border-b pb-4">Expense Tracker</h1>
+
+    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-8 flex justify-between items-center shadow-sm">
+        <span class="text-xl font-medium text-slate-600">Aktueller Kontostand:</span>
+        <span th:text="${balance} + ' €'"
+              th:class="${balance >= 0} ? 'text-3xl font-bold text-emerald-600' : 'text-3xl font-bold text-red-600'">
+            0.00 €
+        </span>
+    </div>
+
+    <div class="mb-10">
+        <h3 class="text-xl font-semibold text-slate-800 mb-4">Neue Buchung erfassen</h3>
+
+        <form action="/add" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <select name="type" required class="p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                <option value="EXPENSE">Ausgabe</option>
+                <option value="INCOME">Einnahme</option>
+            </select>
+
+            <input type="number" step="0.01" name="amount" placeholder="Betrag (z.B. 49.99)" required
+                   class="p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+            <input type="date" name="date" required
+                   class="p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+            <input type="text" name="category" placeholder="Kategorie (z.B. Lebensmittel)" required
+                   class="p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+            <input type="text" name="description" placeholder="Beschreibung" required
+                   class="p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none md:col-span-2">
+
+            <button type="submit"
+                    class="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md">
+                Buchung speichern
+            </button>
+        </form>
+    </div>
+
+    <div>
+        <h3 class="text-xl font-semibold text-slate-800 mb-4">Historie</h3>
+        <div class="overflow-x-auto rounded-lg border border-slate-200 shadow-sm">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                <tr class="bg-slate-100 text-slate-700 uppercase text-sm tracking-wider">
+                    <th class="p-4 border-b border-slate-200">Datum</th>
+                    <th class="p-4 border-b border-slate-200">Typ</th>
+                    <th class="p-4 border-b border-slate-200">Kategorie</th>
+                    <th class="p-4 border-b border-slate-200">Beschreibung</th>
+                    <th class="p-4 border-b border-slate-200 text-right">Betrag</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-slate-100">
+                <tr th:each="tx : ${transactions}" class="hover:bg-slate-50 transition duration-150">
+                    <td class="p-4 text-slate-600" th:text="${tx.date}">2026-01-01</td>
+                    <td class="p-4 text-slate-600">
+                            <span th:text="${tx.class.simpleName}"
+                                  th:class="${tx.class.simpleName == 'Income'} ? 'bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded' : 'bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded'">
+                                Ausgabe
+                            </span>
+                    </td>
+                    <td class="p-4 text-slate-600 font-medium" th:text="${tx.category}">Kategorie</td>
+                    <td class="p-4 text-slate-500" th:text="${tx.description}">Beschreibung</td>
+                    <td class="p-4 text-right font-bold"
+                        th:text="${tx.signedAmount} + ' €'"
+                        th:classappend="${tx.signedAmount >= 0} ? 'text-emerald-600' : 'text-red-600'">
+                        -10.00 €
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(transactions)}">
+                    <td colspan="5" class="p-6 text-center text-slate-500 italic">Noch keine Buchungen vorhanden.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

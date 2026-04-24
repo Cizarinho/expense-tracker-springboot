@@ -1,4 +1,4 @@
-package model;
+package com.et.expense_tracker_springboot.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
